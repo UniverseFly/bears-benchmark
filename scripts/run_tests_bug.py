@@ -14,10 +14,10 @@ WORKSPACE = args.workspace
 
 BUG_FOLDER_PATH = os.path.join(WORKSPACE, BUG_ID)
 if not os.path.isdir(BUG_FOLDER_PATH):
-    print "The bug %s has not been checked out." % BUG_ID
+    print("The bug %s has not been checked out." % BUG_ID)
     sys.exit()
 
-print "Running the tests related to the bug %s..." % BUG_ID
+print("Running the tests related to the bug %s..." % BUG_ID)
 
 BUG_BEARS_JSON = None
 if os.path.exists(os.path.join(BUG_FOLDER_PATH, 'bears.json')):
@@ -40,6 +40,7 @@ if BUG_BEARS_JSON is not None:
 MAVEN_ARGS = "-V -B -Denforcer.skip=true -Dcheckstyle.skip=true -Dcobertura.skip=true -DskipITs=true -Drat.skip=true -Dlicense.skip=true -Dfindbugs.skip=true -Dgpg.skip=true -Dskip.npm=true -Dskip.gulp=true -Dskip.bower=true"
 
 cmd = "cd %s; mvn test %s;" % (BUG_FOLDER_PATH, MAVEN_ARGS)
-subprocess.call(cmd, shell=True)
+exit_code = subprocess.call(cmd, shell=True)
 
-print "The tests related to the bug %s were executed." % BUG_ID
+print("The tests related to the bug %s were executed." % BUG_ID)
+sys.exit(exit_code)
